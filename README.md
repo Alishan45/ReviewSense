@@ -5,9 +5,11 @@
 [![Scikit-Learn](https://img.shields.io/badge/scikit--learn-1.6+-F7931E?style=flat&logo=scikit-learn&logoColor=white)](https://scikit-learn.org/)
 [![Benchmark Accuracy](https://img.shields.io/badge/Accuracy-86.25%25-brightgreen?style=flat)](#-model-benchmarking--evaluation)
 [![Macro F1](https://img.shields.io/badge/Macro%20F1-0.86-blue?style=flat)](#-model-benchmarking--evaluation)
+[![Vercel Report](https://img.shields.io/badge/Vercel-Live%20Report-black?style=flat&logo=vercel)](https://brisk-cyclone-gr3tiao.tmp.now)
 
 > **AI Engineering Internship — Week 01 Deliverable**  
-> *A baseline machine-learning application for positive and negative review sentiment classification.*
+> *A baseline machine-learning application for positive and negative review sentiment classification.*  
+> 🌐 **[Read Technical Project Report Live on Vercel](https://brisk-cyclone-gr3tiao.tmp.now)**
 
 ---
 

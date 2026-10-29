@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReviewSense Project Report — AI Engineering Internship</title>
+  <meta name="description" content="Technical Deliverable: ReviewSense Customer Review Sentiment Classifier by Alishan. Week 01 AI Engineering Internship.">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💬</text></svg>">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- PDF.js CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Outfit', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#eff6ff',
+              100: '#dbeafe',
+              500: '#3b82f6',
+              600: '#2563eb',
+              700: '#1d4ed8',
+              800: '#1e40af',
+              900: '#1e3a8a',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0f172a;
+      color: #f8fafc;
+    }
+    .glass-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .pdf-canvas-container {
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 8px 10px -6px rgba(0, 0, 0, 0.5);
+    }
+    canvas {
+      margin: 0 auto;
+      max-width: 100%;
+      height: auto !important;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans selection:bg-blue-500 selection:text-white">
+
+  <!-- Top Announcement Bar -->
+  <header class="border-b border-slate-800 bg-slate-900/80 sticky top-0 z-50 backdrop-blur-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3">
+        <span class="text-2xl">💬</span>
+        <div>
+          <span class="font-display font-bold text-lg text-white tracking-tight">ReviewSense</span>
+          <span class="hidden sm:inline-block ml-2 px-2.5 py-0.5 text-xs font-medium rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
+            Week 01 Deliverable
+          </span>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3">
+        <a href="https://github.com/Alishan45/ReviewSense" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
+          <i class="fab fa-github mr-2 text-sm"></i>
+          GitHub Repo
+        </a>
+        <a href="ReviewSense-Project-Report.pdf" download="ReviewSense-Project-Report.pdf"
+           class="inline-flex items-center px-4 py-1.5 rounded-lg text-xs font-semibold bg-blue-600 hover:bg-blue-500 text-white shadow-sm transition">
+          <i class="fas fa-download mr-2"></i>
+          Download PDF
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+    <div class="text-center max-w-3xl mx-auto mb-10">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-900/40 border border-blue-700/50 text-blue-300 text-xs font-medium mb-3">
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        Formal Technical Deliverable & Research Report
+      </div>
+      <h1 class="font-display text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight mb-4 leading-tight">
+        Customer Review Sentiment Classifier
+      </h1>
+      <p class="text-slate-400 text-base sm:text-lg">
+        End-to-End Natural Language Processing Pipeline, Quantitative Model Evaluation, and Interactive Web Deployment.
+      </p>
+      <div class="mt-4 flex flex-wrap justify-center items-center gap-3 text-xs text-slate-400">
+        <span><i class="far fa-user text-blue-400 mr-1.5"></i> Author: <strong class="text-slate-200">Alishan</strong></span>
+        <span>•</span>
+        <span><i class="far fa-calendar-alt text-blue-400 mr-1.5"></i> Milestone: <strong class="text-slate-200">Week 01 Project Brief</strong></span>
+        <span>•</span>
+        <span><i class="fas fa-microchip text-blue-400 mr-1.5"></i> Framework: <strong class="text-slate-200">Scikit-Learn & Streamlit</strong></span>
+      </div>
+    </div>
+
+    <!-- Quick Metric Cards -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
+      <div class="glass-card rounded-xl p-4 text-center">
+        <div class="text-2xl sm:text-3xl font-extrabold text-emerald-400 font-display">86.25%</div>
+        <div class="text-xs text-slate-400 uppercase tracking-wider font-medium mt-1">Accuracy Benchmark</div>
+        <div class="text-[11px] text-slate-500 mt-0.5">345 / 400 Test Samples</div>
+      </div>
+      <div class="glass-card rounded-xl p-4 text-center">
+        <div class="text-2xl sm:text-3xl font-extrabold text-blue-400 font-display">0.86</div>
+        <div class="text-xs text-slate-400 uppercase tracking-wider font-medium mt-1">Macro F1-Score</div>
+        <div class="text-[11px] text-slate-500 mt-0.5">Balanced Precision & Recall</div>
+      </div>
+      <div class="glass-card rounded-xl p-4 text-center">
+        <div class="text-2xl sm:text-3xl font-extrabold text-indigo-400 font-display">TF-IDF</div>
+        <div class="text-xs text-slate-400 uppercase tracking-wider font-medium mt-1">Vectorization</div>
+        <div class="text-[11px] text-slate-500 mt-0.5">Token Weighting Pipeline</div>
+      </div>
+      <div class="glass-card rounded-xl p-4 text-center">
+        <div class="text-2xl sm:text-3xl font-extrabold text-purple-400 font-display">LogReg</div>
+        <div class="text-xs text-slate-400 uppercase tracking-wider font-medium mt-1">Classifier</div>
+        <div class="text-[11px] text-slate-500 mt-0.5">Calibrated Probability Output</div>
+      </div>
+    </div>
+
+    <!-- Reader Mode Switcher & Controls Toolbar -->
+    <div class="glass-card rounded-2xl p-4 mb-6 shadow-xl">
+      <div class="flex flex-wrap items-center justify-between gap-4">
+        
+        <!-- Page Nav -->
+        <div class="flex items-center space-x-2">
+          <button id="prev-page" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium disabled:opacity-40 transition">
+            <i class="fas fa-chevron-left mr-1"></i> Prev
+          </button>
+          <span class="text-xs text-slate-300 font-medium px-2">
+            Page <span id="page-num" class="text-white font-bold">1</span> of <span id="page-count" class="text-white font-bold">5</span>
+          </span>
+          <button id="next-page" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium disabled:opacity-40 transition">
+            Next <i class="fas fa-chevron-right ml-1"></i>
+          </button>
+        </div>
+
+        <!-- Zoom Controls -->
+        <div class="flex items-center space-x-2">
+          <button id="zoom-out" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs transition" title="Zoom Out">
+            <i class="fas fa-search-minus"></i>
+          </button>
+          <span id="zoom-level" class="text-xs text-slate-300 font-mono">100%</span>
+          <button id="zoom-in" class="p-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs transition" title="Zoom In">
+            <i class="fas fa-search-plus"></i>
+          </button>
+          <button id="fit-width" class="px-2.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs transition" title="Fit to Container">
+            Fit Width
+          </button>
+        </div>
+
+        <!-- View Mode (Canvas / Native Embed) -->
+        <div class="flex items-center space-x-2">
+          <button id="toggle-embed" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs transition">
+            <i class="fas fa-window-maximize mr-1.5"></i> Native Viewer
+          </button>
+          <a href="ReviewSense-Project-Report.pdf" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs transition">
+            <i class="fas fa-external-link-alt mr-1.5"></i> Fullscreen Tab
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Viewer Container -->
+    <div class="relative w-full rounded-2xl overflow-hidden glass-card p-2 sm:p-6 mb-12">
+      
+      <!-- Interactive PDF.js Canvas Viewer -->
+      <div id="pdf-interactive-viewer" class="flex flex-col items-center justify-center min-h-[600px] w-full overflow-x-auto">
+        <div id="pdf-loading" class="flex flex-col items-center py-20 text-slate-400">
+          <i class="fas fa-circle-notch fa-spin text-3xl text-blue-500 mb-3"></i>
+          <span class="text-sm font-medium">Rendering PDF Report...</span>
+        </div>
+        <div class="pdf-canvas-container rounded-lg overflow-hidden bg-white shadow-2xl">
+          <canvas id="pdf-render-canvas"></canvas>
+        </div>
+      </div>
+
+      <!-- Native Browser Embed Fallback / Mode -->
+      <div id="pdf-native-viewer" class="hidden w-full h-[850px] rounded-xl overflow-hidden">
+        <object data="ReviewSense-Project-Report.pdf" type="application/pdf" class="w-full h-full">
+          <iframe src="ReviewSense-Project-Report.pdf" class="w-full h-full border-0">
+            <div class="p-6 text-center">
+              <p class="text-slate-400 mb-3">Your browser doesn't have a PDF plugin.</p>
+              <a href="ReviewSense-Project-Report.pdf" download class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">Download PDF</a>
+            </div>
+          </iframe>
+        </object>
+      </div>
+
+    </div>
+
+    <!-- Key Report Insights Section -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+      <div class="glass-card rounded-2xl p-6">
+        <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 text-blue-400 flex items-center justify-center mb-4">
+          <i class="fas fa-balance-scale"></i>
+        </div>
+        <h3 class="font-display font-bold text-lg text-white mb-2">Error Symmetry Analysis</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          The confusion matrix confirms balanced behavior across both polarities: <strong>172 True Negatives</strong> (86.0%) and <strong>173 True Positives</strong> (86.5%), confirming the model does not artificially favor optimistic predictions.
+        </p>
+      </div>
+
+      <div class="glass-card rounded-2xl p-6">
+        <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mb-4">
+          <i class="fas fa-exchange-alt"></i>
+        </div>
+        <h3 class="font-display font-bold text-lg text-white mb-2">Contrastive Clauses</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          The report evaluates mixed-polarity statements such as <em>"The acting was good but the story was terrible"</em>. Feature weighting properly penalizes high-intensity negative descriptors following contrastive conjunctions.
+        </p>
+      </div>
+
+      <div class="glass-card rounded-2xl p-6">
+        <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center mb-4">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h3 class="font-display font-bold text-lg text-white mb-2">Defensive Engineering</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">
+          Strict programmatic inference guidelines ensure boundary checks against empty strings, defensive error trapping, and fast sub-15ms latency suitable for production workloads.
+        </p>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-800 bg-slate-900/60 py-8 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+      <div>
+        ReviewSense &copy; 2026 &middot; AI Engineering Internship Deliverable &middot; Author: <strong class="text-slate-400">Alishan</strong>
+      </div>
+      <div class="flex items-center space-x-4">
+        <a href="https://github.com/Alishan45/ReviewSense" target="_blank" class="hover:text-slate-300 transition">GitHub</a>
+        <a href="ReviewSense-Project-Report.pdf" download class="hover:text-slate-300 transition">PDF Direct Download</a>
+        <a href="https://vercel.com" target="_blank" class="hover:text-slate-300 transition">Deployed on Vercel</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- PDF.js Reader Script -->
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    const url = 'ReviewSense-Project-Report.pdf';
+    let pdfDoc = null;
+    let pageNum = 1;
+    let pageRendering = false;
+    let pageNumPending = null;
+    let scale = 1.35;
+    const canvas = document.getElementById('pdf-render-canvas');
+    const ctx = canvas.getContext('2d');
+    const loadingEl = document.getElementById('pdf-loading');
+    const zoomLevelEl = document.getElementById('zoom-level');
+
+    // Auto adjust scale for mobile screens
+    if (window.innerWidth < 640) {
+      scale = 0.65;
+    } else if (window.innerWidth < 1024) {
+      scale = 0.95;
+    }
+
+    function renderPage(num) {
+      pageRendering = true;
+      pdfDoc.getPage(num).then(page => {
+        const viewport = page.getViewport({ scale: scale });
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        const renderContext = {
+          canvasContext: ctx,
+          viewport: viewport
+        };
+        const renderTask = page.render(renderContext);
+
+        renderTask.promise.then(() => {
+          pageRendering = false;
+          if (pageNumPending !== null) {
+            renderPage(pageNumPending);
+            pageNumPending = null;
+          }
+        });
+      });
+
+      document.getElementById('page-num').textContent = num;
+      zoomLevelEl.textContent = Math.round(scale / 1.35 * 100) + '%';
+      
+      document.getElementById('prev-page').disabled = num <= 1;
+      document.getElementById('next-page').disabled = num >= pdfDoc.numPages;
+    }
+
+    function queueRenderPage(num) {
+      if (pageRendering) {
+        pageNumPending = num;
+      } else {
+        renderPage(num);
+      }
+    }
+
+    function onPrevPage() {
+      if (pageNum <= 1) return;
+      pageNum--;
+      queueRenderPage(pageNum);
+    }
+    document.getElementById('prev-page').addEventListener('click', onPrevPage);
+
+    function onNextPage() {
+      if (pageNum >= pdfDoc.numPages) return;
+      pageNum++;
+      queueRenderPage(pageNum);
+    }
+    document.getElementById('next-page').addEventListener('click', onNextPage);
+
+    document.getElementById('zoom-in').addEventListener('click', () => {
+      scale = Math.min(scale + 0.2, 3.0);
+      queueRenderPage(pageNum);
+    });
+
+    document.getElementById('zoom-out').addEventListener('click', () => {
+      scale = Math.max(scale - 0.2, 0.4);
+      queueRenderPage(pageNum);
+    });
+
+    document.getElementById('fit-width').addEventListener('click', () => {
+      const containerWidth = document.getElementById('pdf-interactive-viewer').clientWidth - 40;
+      pdfDoc.getPage(pageNum).then(page => {
+        const unscaledViewport = page.getViewport({ scale: 1.0 });
+        scale = containerWidth / unscaledViewport.width;
+        queueRenderPage(pageNum);
+      });
+    });
+
+    // Toggle between PDF.js canvas and browser native viewer
+    let isNative = false;
+    document.getElementById('toggle-embed').addEventListener('click', () => {
+      isNative = !isNative;
+      const interactiveEl = document.getElementById('pdf-interactive-viewer');
+      const nativeEl = document.getElementById('pdf-native-viewer');
+      const btn = document.getElementById('toggle-embed');
+      
+      if (isNative) {
+        interactiveEl.classList.add('hidden');
+        nativeEl.classList.remove('hidden');
+        btn.innerHTML = '<i class="fas fa-file-pdf mr-1.5"></i> Custom Viewer';
+      } else {
+        interactiveEl.classList.remove('hidden');
+        nativeEl.classList.add('hidden');
+        btn.innerHTML = '<i class="fas fa-window-maximize mr-1.5"></i> Native Viewer';
+      }
+    });
+
+    // Keyboard navigation
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown') {
+        onNextPage();
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+        onPrevPage();
+      }
+    });
+
+    // Load PDF
+    pdfjsLib.getDocument(url).promise.then(doc => {
+      pdfDoc = doc;
+      document.getElementById('page-count').textContent = doc.numPages;
+      loadingEl.classList.add('hidden');
+      renderPage(pageNum);
+    }).catch(err => {
+      loadingEl.innerHTML = `
+        <div class="text-rose-400 p-4 bg-rose-950/40 rounded-xl border border-rose-800 text-center">
+          <i class="fas fa-exclamation-triangle text-2xl mb-2"></i>
+          <p class="font-semibold text-sm">Failed to render PDF in canvas mode.</p>
+          <p class="text-xs text-rose-300 mt-1">${err.message}</p>
+          <a href="${url}" download class="inline-block mt-3 px-3 py-1.5 bg-rose-700 hover:bg-rose-600 text-white rounded text-xs">
+            Download PDF Direct
+          </a>
+        </div>
+      `;
+    });
+  </script>
+</body>
+</html>
