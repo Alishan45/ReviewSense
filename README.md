@@ -118,11 +118,13 @@ http://localhost:8501
 
 ```plaintext
 ReviewSense/
-├── app.py                     # Streamlit web application & UI logic
-├── reviewsense_model.joblib   # Serialized Scikit-Learn NLP pipeline
-├── requirements.txt           # Python dependencies (Streamlit, Scikit-Learn, Joblib)
-├── README.md                  # Comprehensive project documentation
-└── .gitignore                 # Standard Python & environment exclusions
+├── app.py                         # Streamlit web application & UI logic
+├── reviewsense_model.joblib       # Serialized Scikit-Learn NLP pipeline
+├── ReviewSense_Week01.ipynb       # Jupyter Notebook (EDA, training, & evaluation)
+├── ReviewSense Project Report.pdf # Formal technical deliverables & audit report
+├── requirements.txt               # Python dependencies (Streamlit, Scikit-Learn, Joblib)
+├── README.md                      # Comprehensive project documentation
+└── .gitignore                     # Standard Python & environment exclusions
 ```
 
 ---
